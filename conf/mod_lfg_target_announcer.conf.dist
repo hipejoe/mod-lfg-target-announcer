@@ -4,8 +4,6 @@
 
 [worldserver]
 
-[worldserver]
-
 #
 #    LfgTargetAnnouncer.Enable
 #        Description: Enables or disables LFG dungeon target announcements.
