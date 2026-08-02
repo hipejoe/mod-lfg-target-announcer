@@ -4,6 +4,7 @@
 #include "Map.h"
 #include "Player.h"
 #include "ScriptMgr.h"
+#include "Config.h"
 
 #include <string>
 
@@ -19,6 +20,13 @@ public:
         Map* map,
         Player* player) override
     {
+        if (!sConfigMgr->GetOption<bool>(
+            "LfgTargetAnnouncer.Enable",
+            true))
+        {
+            return;
+        }
+
         if (!map ||
             !player ||
             !map->IsDungeon() ||
@@ -58,8 +66,7 @@ private:
         QueryResult result = WorldDatabase.Query(
             "SELECT `message` "
             "FROM `mod_lfg_target_announcer` "
-            "WHERE `map_id` = {} "
-            "AND `enabled` = 1",
+            "WHERE `map_id` = {}",
             mapId);
 
         if (!result)
