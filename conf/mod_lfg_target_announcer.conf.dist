@@ -1,0 +1,17 @@
+#
+# Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
+#
+
+[worldserver]
+
+[worldserver]
+
+#
+#    LfgTargetAnnouncer.Enable
+#        Description: Enables or disables LFG dungeon target announcements.
+#        Default:     1
+#                     0 - Disabled
+#                     1 - Enabled
+#
+
+LfgTargetAnnouncer.Enable = 1
