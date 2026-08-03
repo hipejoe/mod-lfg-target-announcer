@@ -1,0 +1,141 @@
+-- Generated from the supplied WotLK 3.3.5a DBC files:
+--   LFGDungeons.dbc
+--   LFGDungeonGroup.dbc
+--   LFGDungeonExpansion.dbc
+--
+-- The DBC files do not contain final-boss creature entries. The target table
+-- is created but intentionally left empty for later creature/event target inserts.
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS `mod_lfg_target_announcer_target`;
+DROP TABLE IF EXISTS `mod_lfg_target_announcer`;
+SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE `mod_lfg_target_announcer`
+(
+    `lfg_dungeon_id` INT UNSIGNED NOT NULL,
+    `map_id` INT UNSIGNED NOT NULL,
+    `message` VARCHAR(1000) NOT NULL,
+    `comment` VARCHAR(255) NULL,
+    PRIMARY KEY (`lfg_dungeon_id`),
+    INDEX `IX_mod_lfg_target_announcer_map_id` (`map_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `mod_lfg_target_announcer_target`
+(
+    `lfg_dungeon_id` INT UNSIGNED NOT NULL,
+    `target_order` TINYINT UNSIGNED NOT NULL,
+    `creature_entry` INT UNSIGNED NULL,
+    `target_name` VARCHAR(255) NOT NULL,
+    `required` TINYINT UNSIGNED NOT NULL DEFAULT 1,
+    `comment` VARCHAR(255) NULL,
+    PRIMARY KEY (`lfg_dungeon_id`, `target_order`),
+    INDEX `IX_mod_lfg_target_creature_entry` (`creature_entry`),
+    CONSTRAINT `FK_mod_lfg_target_announcer_target_dungeon`
+        FOREIGN KEY (`lfg_dungeon_id`)
+        REFERENCES `mod_lfg_target_announcer` (`lfg_dungeon_id`)
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `mod_lfg_target_announcer`
+(`lfg_dungeon_id`, `map_id`, `message`, `comment`)
+VALUES
+(1, 43, '|cff00ff00[LFG System]:|r To complete Wailing Caverns, complete the required final encounter for this Dungeon Finder entry.', 'Wailing Caverns - Normal - Classic Dungeons - Levels 15-25 - LFG ID 1'),
+(2, 289, '|cff00ff00[LFG System]:|r To complete Scholomance, complete the required final encounter for this Dungeon Finder entry.', 'Scholomance - Normal - Classic Dungeons - Levels 55-65 - LFG ID 2'),
+(4, 389, '|cff00ff00[LFG System]:|r To complete Ragefire Chasm, complete the required final encounter for this Dungeon Finder entry.', 'Ragefire Chasm - Normal - Classic Dungeons - Levels 15-21 - LFG ID 4'),
+(6, 36, '|cff00ff00[LFG System]:|r To complete Deadmines, complete the required final encounter for this Dungeon Finder entry.', 'Deadmines - Normal - Classic Dungeons - Levels 15-25 - LFG ID 6'),
+(8, 33, '|cff00ff00[LFG System]:|r To complete Shadowfang Keep, complete the required final encounter for this Dungeon Finder entry.', 'Shadowfang Keep - Normal - Classic Dungeons - Levels 16-26 - LFG ID 8'),
+(10, 48, '|cff00ff00[LFG System]:|r To complete Blackfathom Deeps, complete the required final encounter for this Dungeon Finder entry.', 'Blackfathom Deeps - Normal - Classic Dungeons - Levels 19-29 - LFG ID 10'),
+(12, 34, '|cff00ff00[LFG System]:|r To complete Stormwind Stockade, complete the required final encounter for this Dungeon Finder entry.', 'Stormwind Stockade - Normal - Classic Dungeons - Levels 20-30 - LFG ID 12'),
+(14, 90, '|cff00ff00[LFG System]:|r To complete Gnomeregan, complete the required final encounter for this Dungeon Finder entry.', 'Gnomeregan - Normal - Classic Dungeons - Levels 23-33 - LFG ID 14'),
+(16, 47, '|cff00ff00[LFG System]:|r To complete Razorfen Kraul, complete the required final encounter for this Dungeon Finder entry.', 'Razorfen Kraul - Normal - Classic Dungeons - Levels 22-32 - LFG ID 16'),
+(18, 189, '|cff00ff00[LFG System]:|r To complete Scarlet Monastery - Graveyard, complete the required final encounter for this Dungeon Finder entry.', 'Scarlet Monastery - Graveyard - Normal - Classic Dungeons - Levels 27-37 - LFG ID 18'),
+(20, 129, '|cff00ff00[LFG System]:|r To complete Razorfen Downs, complete the required final encounter for this Dungeon Finder entry.', 'Razorfen Downs - Normal - Classic Dungeons - Levels 32-42 - LFG ID 20'),
+(22, 70, '|cff00ff00[LFG System]:|r To complete Uldaman, complete the required final encounter for this Dungeon Finder entry.', 'Uldaman - Normal - Classic Dungeons - Levels 35-45 - LFG ID 22'),
+(24, 209, '|cff00ff00[LFG System]:|r To complete Zul''Farrak, complete the required final encounter for this Dungeon Finder entry.', 'Zul''Farrak - Normal - Classic Dungeons - Levels 41-51 - LFG ID 24'),
+(26, 349, '|cff00ff00[LFG System]:|r To complete Maraudon - Orange Crystals, complete the required final encounter for this Dungeon Finder entry.', 'Maraudon - Orange Crystals - Normal - Classic Dungeons - Levels 41-51 - LFG ID 26'),
+(28, 109, '|cff00ff00[LFG System]:|r To complete Sunken Temple, complete the required final encounter for this Dungeon Finder entry.', 'Sunken Temple - Normal - Classic Dungeons - Levels 45-55 - LFG ID 28'),
+(30, 230, '|cff00ff00[LFG System]:|r To complete Blackrock Depths - Prison, complete the required final encounter for this Dungeon Finder entry.', 'Blackrock Depths - Prison - Normal - Classic Dungeons - Levels 47-57 - LFG ID 30'),
+(32, 229, '|cff00ff00[LFG System]:|r To complete Lower Blackrock Spire, complete the required final encounter for this Dungeon Finder entry.', 'Lower Blackrock Spire - Normal - Classic Dungeons - Levels 55-65 - LFG ID 32'),
+(34, 429, '|cff00ff00[LFG System]:|r To complete Dire Maul - East, complete the required final encounter for this Dungeon Finder entry.', 'Dire Maul - East - Normal - Classic Dungeons - Levels 53-63 - LFG ID 34'),
+(36, 429, '|cff00ff00[LFG System]:|r To complete Dire Maul - West, complete the required final encounter for this Dungeon Finder entry.', 'Dire Maul - West - Normal - Classic Dungeons - Levels 55-65 - LFG ID 36'),
+(38, 429, '|cff00ff00[LFG System]:|r To complete Dire Maul - North, complete the required final encounter for this Dungeon Finder entry.', 'Dire Maul - North - Normal - Classic Dungeons - Levels 55-65 - LFG ID 38'),
+(40, 329, '|cff00ff00[LFG System]:|r To complete Stratholme - Main Gate, complete the required final encounter for this Dungeon Finder entry.', 'Stratholme - Main Gate - Normal - Classic Dungeons - Levels 55-65 - LFG ID 40'),
+(136, 543, '|cff00ff00[LFG System]:|r To complete Hellfire Ramparts, complete the required final encounter for this Dungeon Finder entry.', 'Hellfire Ramparts - Normal - Burning Crusade Normal - Levels 57-67 - LFG ID 136'),
+(137, 542, '|cff00ff00[LFG System]:|r To complete Blood Furnace, complete the required final encounter for this Dungeon Finder entry.', 'Blood Furnace - Normal - Burning Crusade Normal - Levels 59-68 - LFG ID 137'),
+(138, 540, '|cff00ff00[LFG System]:|r To complete Shattered Halls, complete the required final encounter for this Dungeon Finder entry.', 'Shattered Halls - Normal - Burning Crusade Normal - Levels 67-75 - LFG ID 138'),
+(140, 547, '|cff00ff00[LFG System]:|r To complete Slave Pens, complete the required final encounter for this Dungeon Finder entry.', 'Slave Pens - Normal - Burning Crusade Normal - Levels 60-69 - LFG ID 140'),
+(146, 546, '|cff00ff00[LFG System]:|r To complete Underbog, complete the required final encounter for this Dungeon Finder entry.', 'Underbog - Normal - Burning Crusade Normal - Levels 61-70 - LFG ID 146'),
+(147, 545, '|cff00ff00[LFG System]:|r To complete The Steamvault, complete the required final encounter for this Dungeon Finder entry.', 'The Steamvault - Normal - Burning Crusade Normal - Levels 67-75 - LFG ID 147'),
+(148, 557, '|cff00ff00[LFG System]:|r To complete Mana-Tombs, complete the required final encounter for this Dungeon Finder entry.', 'Mana-Tombs - Normal - Burning Crusade Normal - Levels 62-71 - LFG ID 148'),
+(149, 558, '|cff00ff00[LFG System]:|r To complete Auchenai Crypts, complete the required final encounter for this Dungeon Finder entry.', 'Auchenai Crypts - Normal - Burning Crusade Normal - Levels 63-72 - LFG ID 149'),
+(150, 556, '|cff00ff00[LFG System]:|r To complete Sethekk Halls, complete the required final encounter for this Dungeon Finder entry.', 'Sethekk Halls - Normal - Burning Crusade Normal - Levels 65-73 - LFG ID 150'),
+(151, 555, '|cff00ff00[LFG System]:|r To complete Shadow Labyrinth, complete the required final encounter for this Dungeon Finder entry.', 'Shadow Labyrinth - Normal - Burning Crusade Normal - Levels 67-75 - LFG ID 151'),
+(163, 189, '|cff00ff00[LFG System]:|r To complete Scarlet Monastery - Armory, complete the required final encounter for this Dungeon Finder entry.', 'Scarlet Monastery - Armory - Normal - Classic Dungeons - Levels 32-42 - LFG ID 163'),
+(164, 189, '|cff00ff00[LFG System]:|r To complete Scarlet Monastery - Cathedral, complete the required final encounter for this Dungeon Finder entry.', 'Scarlet Monastery - Cathedral - Normal - Classic Dungeons - Levels 35-45 - LFG ID 164'),
+(165, 189, '|cff00ff00[LFG System]:|r To complete Scarlet Monastery - Library, complete the required final encounter for this Dungeon Finder entry.', 'Scarlet Monastery - Library - Normal - Classic Dungeons - Levels 30-40 - LFG ID 165'),
+(170, 560, '|cff00ff00[LFG System]:|r To complete The Escape From Durnholde, complete the required final encounter for this Dungeon Finder entry.', 'The Escape From Durnholde - Normal - Burning Crusade Normal - Levels 64-73 - LFG ID 170'),
+(171, 269, '|cff00ff00[LFG System]:|r To complete The Black Morass, complete the required final encounter for this Dungeon Finder entry.', 'The Black Morass - Normal - Burning Crusade Normal - Levels 68-75 - LFG ID 171'),
+(172, 554, '|cff00ff00[LFG System]:|r To complete The Mechanar, complete the required final encounter for this Dungeon Finder entry.', 'The Mechanar - Normal - Burning Crusade Normal - Levels 67-75 - LFG ID 172'),
+(173, 553, '|cff00ff00[LFG System]:|r To complete The Botanica, complete the required final encounter for this Dungeon Finder entry.', 'The Botanica - Normal - Burning Crusade Normal - Levels 67-75 - LFG ID 173'),
+(174, 552, '|cff00ff00[LFG System]:|r To complete The Arcatraz, complete the required final encounter for this Dungeon Finder entry.', 'The Arcatraz - Normal - Burning Crusade Normal - Levels 68-75 - LFG ID 174'),
+(178, 558, '|cff00ff00[LFG System]:|r To complete Auchenai Crypts, complete the required final encounter for this Dungeon Finder entry.', 'Auchenai Crypts - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 178'),
+(179, 557, '|cff00ff00[LFG System]:|r To complete Mana-Tombs, complete the required final encounter for this Dungeon Finder entry.', 'Mana-Tombs - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 179'),
+(180, 556, '|cff00ff00[LFG System]:|r To complete Sethekk Halls, complete the required final encounter for this Dungeon Finder entry.', 'Sethekk Halls - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 180'),
+(181, 555, '|cff00ff00[LFG System]:|r To complete Shadow Labyrinth, complete the required final encounter for this Dungeon Finder entry.', 'Shadow Labyrinth - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 181'),
+(182, 269, '|cff00ff00[LFG System]:|r To complete The Black Morass, complete the required final encounter for this Dungeon Finder entry.', 'The Black Morass - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 182'),
+(183, 560, '|cff00ff00[LFG System]:|r To complete The Escape From Durnholde, complete the required final encounter for this Dungeon Finder entry.', 'The Escape From Durnholde - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 183'),
+(184, 547, '|cff00ff00[LFG System]:|r To complete Slave Pens, complete the required final encounter for this Dungeon Finder entry.', 'Slave Pens - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 184'),
+(185, 545, '|cff00ff00[LFG System]:|r To complete The Steamvault, complete the required final encounter for this Dungeon Finder entry.', 'The Steamvault - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 185'),
+(186, 546, '|cff00ff00[LFG System]:|r To complete Underbog, complete the required final encounter for this Dungeon Finder entry.', 'Underbog - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 186'),
+(187, 542, '|cff00ff00[LFG System]:|r To complete Blood Furnace, complete the required final encounter for this Dungeon Finder entry.', 'Blood Furnace - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 187'),
+(188, 543, '|cff00ff00[LFG System]:|r To complete Hellfire Ramparts, complete the required final encounter for this Dungeon Finder entry.', 'Hellfire Ramparts - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 188'),
+(189, 540, '|cff00ff00[LFG System]:|r To complete Shattered Halls, complete the required final encounter for this Dungeon Finder entry.', 'Shattered Halls - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 189'),
+(190, 552, '|cff00ff00[LFG System]:|r To complete The Arcatraz, complete the required final encounter for this Dungeon Finder entry.', 'The Arcatraz - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 190'),
+(191, 553, '|cff00ff00[LFG System]:|r To complete The Botanica, complete the required final encounter for this Dungeon Finder entry.', 'The Botanica - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 191'),
+(192, 554, '|cff00ff00[LFG System]:|r To complete The Mechanar, complete the required final encounter for this Dungeon Finder entry.', 'The Mechanar - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 192'),
+(198, 585, '|cff00ff00[LFG System]:|r To complete Magisters'' Terrace, complete the required final encounter for this Dungeon Finder entry.', 'Magisters'' Terrace - Normal - Burning Crusade Normal - Levels 68-75 - LFG ID 198'),
+(201, 585, '|cff00ff00[LFG System]:|r To complete Magisters'' Terrace, complete the required final encounter for this Dungeon Finder entry.', 'Magisters'' Terrace - Heroic - Burning Crusade Heroic - Levels 70-75 - LFG ID 201'),
+(202, 574, '|cff00ff00[LFG System]:|r To complete Utgarde Keep, complete the required final encounter for this Dungeon Finder entry.', 'Utgarde Keep - Normal - Wrath of the Lich King Normal - Levels 68-80 - LFG ID 202'),
+(203, 575, '|cff00ff00[LFG System]:|r To complete Utgarde Pinnacle, complete the required final encounter for this Dungeon Finder entry.', 'Utgarde Pinnacle - Normal - Wrath of the Lich King Normal - Levels 77-80 - LFG ID 203'),
+(204, 601, '|cff00ff00[LFG System]:|r To complete Azjol-Nerub, complete the required final encounter for this Dungeon Finder entry.', 'Azjol-Nerub - Normal - Wrath of the Lich King Normal - Levels 70-80 - LFG ID 204'),
+(205, 575, '|cff00ff00[LFG System]:|r To complete Utgarde Pinnacle, complete the required final encounter for this Dungeon Finder entry.', 'Utgarde Pinnacle - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 205'),
+(206, 578, '|cff00ff00[LFG System]:|r To complete The Oculus, complete the required final encounter for this Dungeon Finder entry.', 'The Oculus - Normal - Wrath of the Lich King Normal - Levels 77-80 - LFG ID 206'),
+(207, 602, '|cff00ff00[LFG System]:|r To complete Halls of Lightning, complete the required final encounter for this Dungeon Finder entry.', 'Halls of Lightning - Normal - Wrath of the Lich King Normal - Levels 77-80 - LFG ID 207'),
+(208, 599, '|cff00ff00[LFG System]:|r To complete Halls of Stone, complete the required final encounter for this Dungeon Finder entry.', 'Halls of Stone - Normal - Wrath of the Lich King Normal - Levels 75-80 - LFG ID 208'),
+(209, 595, '|cff00ff00[LFG System]:|r To complete The Culling of Stratholme, complete the required final encounter for this Dungeon Finder entry.', 'The Culling of Stratholme - Normal - Wrath of the Lich King Normal - Levels 77-80 - LFG ID 209'),
+(210, 595, '|cff00ff00[LFG System]:|r To complete The Culling of Stratholme, complete the required final encounter for this Dungeon Finder entry.', 'The Culling of Stratholme - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 210'),
+(211, 578, '|cff00ff00[LFG System]:|r To complete The Oculus, complete the required final encounter for this Dungeon Finder entry.', 'The Oculus - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 211'),
+(212, 602, '|cff00ff00[LFG System]:|r To complete Halls of Lightning, complete the required final encounter for this Dungeon Finder entry.', 'Halls of Lightning - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 212'),
+(213, 599, '|cff00ff00[LFG System]:|r To complete Halls of Stone, complete the required final encounter for this Dungeon Finder entry.', 'Halls of Stone - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 213'),
+(214, 600, '|cff00ff00[LFG System]:|r To complete Drak''Tharon Keep, complete the required final encounter for this Dungeon Finder entry.', 'Drak''Tharon Keep - Normal - Wrath of the Lich King Normal - Levels 72-80 - LFG ID 214'),
+(215, 600, '|cff00ff00[LFG System]:|r To complete Drak''Tharon Keep, complete the required final encounter for this Dungeon Finder entry.', 'Drak''Tharon Keep - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 215'),
+(216, 604, '|cff00ff00[LFG System]:|r To complete Gundrak, complete the required final encounter for this Dungeon Finder entry.', 'Gundrak - Normal - Wrath of the Lich King Normal - Levels 74-80 - LFG ID 216'),
+(217, 604, '|cff00ff00[LFG System]:|r To complete Gundrak, complete the required final encounter for this Dungeon Finder entry.', 'Gundrak - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 217'),
+(218, 619, '|cff00ff00[LFG System]:|r To complete Ahn''kahet: The Old Kingdom, complete the required final encounter for this Dungeon Finder entry.', 'Ahn''kahet: The Old Kingdom - Normal - Wrath of the Lich King Normal - Levels 71-80 - LFG ID 218'),
+(219, 619, '|cff00ff00[LFG System]:|r To complete Ahn''kahet: The Old Kingdom, complete the required final encounter for this Dungeon Finder entry.', 'Ahn''kahet: The Old Kingdom - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 219'),
+(220, 608, '|cff00ff00[LFG System]:|r To complete Violet Hold, complete the required final encounter for this Dungeon Finder entry.', 'Violet Hold - Normal - Wrath of the Lich King Normal - Levels 73-80 - LFG ID 220'),
+(221, 608, '|cff00ff00[LFG System]:|r To complete Violet Hold, complete the required final encounter for this Dungeon Finder entry.', 'Violet Hold - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 221'),
+(225, 576, '|cff00ff00[LFG System]:|r To complete The Nexus, complete the required final encounter for this Dungeon Finder entry.', 'The Nexus - Normal - Wrath of the Lich King Normal - Levels 69-80 - LFG ID 225'),
+(226, 576, '|cff00ff00[LFG System]:|r To complete The Nexus, complete the required final encounter for this Dungeon Finder entry.', 'The Nexus - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 226'),
+(241, 601, '|cff00ff00[LFG System]:|r To complete Azjol-Nerub, complete the required final encounter for this Dungeon Finder entry.', 'Azjol-Nerub - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 241'),
+(242, 574, '|cff00ff00[LFG System]:|r To complete Utgarde Keep, complete the required final encounter for this Dungeon Finder entry.', 'Utgarde Keep - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 242'),
+(245, 650, '|cff00ff00[LFG System]:|r To complete Trial of the Champion, complete the required final encounter for this Dungeon Finder entry.', 'Trial of the Champion - Normal - Wrath of the Lich King Normal - Levels 80-80 - LFG ID 245'),
+(249, 650, '|cff00ff00[LFG System]:|r To complete Trial of the Champion, complete the required final encounter for this Dungeon Finder entry.', 'Trial of the Champion - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 249'),
+(251, 632, '|cff00ff00[LFG System]:|r To complete The Forge of Souls, complete the required final encounter for this Dungeon Finder entry.', 'The Forge of Souls - Normal - Wrath of the Lich King Normal - Levels 80-80 - LFG ID 251'),
+(252, 632, '|cff00ff00[LFG System]:|r To complete The Forge of Souls, complete the required final encounter for this Dungeon Finder entry.', 'The Forge of Souls - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 252'),
+(253, 658, '|cff00ff00[LFG System]:|r To complete Pit of Saron, complete the required final encounter for this Dungeon Finder entry.', 'Pit of Saron - Normal - Wrath of the Lich King Normal - Levels 80-80 - LFG ID 253'),
+(254, 658, '|cff00ff00[LFG System]:|r To complete Pit of Saron, complete the required final encounter for this Dungeon Finder entry.', 'Pit of Saron - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 254'),
+(255, 668, '|cff00ff00[LFG System]:|r To complete Halls of Reflection, complete the required final encounter for this Dungeon Finder entry.', 'Halls of Reflection - Normal - Wrath of the Lich King Normal - Levels 80-80 - LFG ID 255'),
+(256, 668, '|cff00ff00[LFG System]:|r To complete Halls of Reflection, complete the required final encounter for this Dungeon Finder entry.', 'Halls of Reflection - Heroic - Wrath of the Lich King Heroic - Levels 80-83 - LFG ID 256'),
+(272, 349, '|cff00ff00[LFG System]:|r To complete Maraudon - Purple Crystals, complete the required final encounter for this Dungeon Finder entry.', 'Maraudon - Purple Crystals - Normal - Classic Dungeons - Levels 39-49 - LFG ID 272'),
+(273, 349, '|cff00ff00[LFG System]:|r To complete Maraudon - Pristine Waters, complete the required final encounter for this Dungeon Finder entry.', 'Maraudon - Pristine Waters - Normal - Classic Dungeons - Levels 43-53 - LFG ID 273'),
+(274, 329, '|cff00ff00[LFG System]:|r To complete Stratholme - Service Entrance, complete the required final encounter for this Dungeon Finder entry.', 'Stratholme - Service Entrance - Normal - Classic Dungeons - Levels 55-65 - LFG ID 274'),
+(276, 230, '|cff00ff00[LFG System]:|r To complete Blackrock Depths - Upper City, complete the required final encounter for this Dungeon Finder entry.', 'Blackrock Depths - Upper City - Normal - Classic Dungeons - Levels 51-61 - LFG ID 276'),
+(285, 189, '|cff00ff00[LFG System]:|r To complete The Headless Horseman, complete the required final encounter for this Dungeon Finder entry.', 'The Headless Horseman - Normal - World Events - Levels 78-82 - LFG ID 285'),
+(286, 547, '|cff00ff00[LFG System]:|r To complete The Frost Lord Ahune, complete the required final encounter for this Dungeon Finder entry.', 'The Frost Lord Ahune - Normal - World Events - Levels 78-82 - LFG ID 286'),
+(287, 230, '|cff00ff00[LFG System]:|r To complete Coren Direbrew, complete the required final encounter for this Dungeon Finder entry.', 'Coren Direbrew - Normal - World Events - Levels 78-82 - LFG ID 287'),
+(288, 33, '|cff00ff00[LFG System]:|r To complete The Crown Chemical Co., complete the required final encounter for this Dungeon Finder entry.', 'The Crown Chemical Co. - Normal - World Events - Levels 78-82 - LFG ID 288');
+
+-- Inserted 96 selectable LFG dungeon entries.
