@@ -1,8 +1,5 @@
 -- Reference tables generated from the three supplied WotLK DBC files.
 SET NAMES utf8mb4;
-DROP TABLE IF EXISTS `mod_lfg_dbc_expansion`;
-DROP TABLE IF EXISTS `mod_lfg_dbc_dungeon`;
-DROP TABLE IF EXISTS `mod_lfg_dbc_group`;
 
 CREATE TABLE IF NOT EXISTS `mod_lfg_dbc_group` (
  `id` INT UNSIGNED NOT NULL, `name` VARCHAR(255) NOT NULL,
@@ -238,7 +235,7 @@ INSERT INTO `mod_lfg_dbc_dungeon` VALUES
 (259,'Random Burning Crusade Dungeon',59,68,65,59,68,0,0,3,6,-1,'',1,0,2,''),
 (260,'Random Burning Crusade Heroic',70,73,70,70,73,0,1,3,6,-1,'',1,0,3,''),
 (261,'Random Lich King Dungeon',69,80,80,69,80,0,0,3,6,-1,'',2,0,4,''),
-(262,'Random Lich King Heroic',80,83,80,80,83,0,1,3,6,-1,'',2,0,5,'');
+(262,'Random Lich King Heroic',80,83,80,80,83,0,1,3,6,-1,'',2,0,5,'')
 ON DUPLICATE KEY UPDATE
     `name` = VALUES(`name`),
     `min_level` = VALUES(`min_level`),
@@ -293,7 +290,7 @@ INSERT INTO `mod_lfg_dbc_expansion` VALUES
 (202,259,1,0,59,70,59,70),
 (203,259,2,0,59,68,59,68),
 (219,274,0,258,57,60,59,60),
-(220,276,0,258,51,60,53,56);
+(220,276,0,258,51,60,53,56)
 ON DUPLICATE KEY UPDATE
     `lfg_dungeon_id` = VALUES(`lfg_dungeon_id`),
     `expansion_level` = VALUES(`expansion_level`),
