@@ -106,7 +106,7 @@ VALUES
 (285, 189, '|cff00ff00[LFG System]:|r To complete The Headless Horseman, complete the required final encounter for this Dungeon Finder entry.', 'The Headless Horseman - Normal - World Events - Levels 78-82 - LFG ID 285'),
 (286, 547, '|cff00ff00[LFG System]:|r To complete The Frost Lord Ahune, complete the required final encounter for this Dungeon Finder entry.', 'The Frost Lord Ahune - Normal - World Events - Levels 78-82 - LFG ID 286'),
 (287, 230, '|cff00ff00[LFG System]:|r To complete Coren Direbrew, complete the required final encounter for this Dungeon Finder entry.', 'Coren Direbrew - Normal - World Events - Levels 78-82 - LFG ID 287'),
-(288, 33, '|cff00ff00[LFG System]:|r To complete The Crown Chemical Co., complete the required final encounter for this Dungeon Finder entry.', 'The Crown Chemical Co. - Normal - World Events - Levels 78-82 - LFG ID 288');
+(288, 33, '|cff00ff00[LFG System]:|r To complete The Crown Chemical Co., complete the required final encounter for this Dungeon Finder entry.', 'The Crown Chemical Co. - Normal - World Events - Levels 78-82 - LFG ID 288')
 ON DUPLICATE KEY UPDATE
     `map_id` = VALUES(`map_id`),
     `message` = VALUES(`message`),
