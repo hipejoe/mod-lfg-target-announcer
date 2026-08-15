@@ -4,24 +4,37 @@ DROP TABLE IF EXISTS `mod_lfg_dbc_expansion`;
 DROP TABLE IF EXISTS `mod_lfg_dbc_dungeon`;
 DROP TABLE IF EXISTS `mod_lfg_dbc_group`;
 
-CREATE TABLE `mod_lfg_dbc_group` (
+CREATE TABLE IF NOT EXISTS `mod_lfg_dbc_group` (
  `id` INT UNSIGNED NOT NULL, `name` VARCHAR(255) NOT NULL,
  `display_order` INT UNSIGNED NOT NULL, `parent_group_id` INT UNSIGNED NOT NULL,
  `type_id` INT UNSIGNED NOT NULL, PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-INSERT INTO `mod_lfg_dbc_group` VALUES
-(5,'Wrath of the Lich King Heroic',1,0,5),
-(4,'Wrath of the Lich King Normal',2,0,1),
-(3,'Burning Crusade Heroic',3,0,5),
-(2,'Burning Crusade Normal',4,0,1),
-(1,'Classic Dungeons',5,0,1),
-(9,'Wrath of the Lich King Raid (25)',17,0,2),
-(8,'Wrath of the Lich King Raid (10)',18,0,2),
-(7,'Burning Crusade Raid',19,0,2),
-(6,'Classic Raid',20,0,2),
-(11,'World Events',21,0,0);
+INSERT INTO `mod_lfg_dbc_group`
+(
+    `id`,
+    `name`,
+    `display_order`,
+    `parent_group_id`,
+    `type_id`
+)
+VALUES
+(5, 'Wrath of the Lich King Heroic', 1, 0, 5),
+(4, 'Wrath of the Lich King Normal', 2, 0, 1),
+(3, 'Burning Crusade Heroic', 3, 0, 5),
+(2, 'Burning Crusade Normal', 4, 0, 1),
+(1, 'Classic Dungeons', 5, 0, 1),
+(9, 'Wrath of the Lich King Raid (25)', 17, 0, 2),
+(8, 'Wrath of the Lich King Raid (10)', 18, 0, 2),
+(7, 'Burning Crusade Raid', 19, 0, 2),
+(6, 'Classic Raid', 20, 0, 2),
+(11, 'World Events', 21, 0, 0)
+ON DUPLICATE KEY UPDATE
+    `name` = VALUES(`name`),
+    `display_order` = VALUES(`display_order`),
+    `parent_group_id` = VALUES(`parent_group_id`),
+    `type_id` = VALUES(`type_id`);
 
-CREATE TABLE `mod_lfg_dbc_dungeon` (
+CREATE TABLE IF NOT EXISTS `mod_lfg_dbc_dungeon` (
  `id` INT UNSIGNED NOT NULL, `name` VARCHAR(255) NOT NULL,
  `min_level` INT UNSIGNED NOT NULL, `max_level` INT UNSIGNED NOT NULL,
  `target_level` INT UNSIGNED NOT NULL, `target_min_level` INT UNSIGNED NOT NULL, `target_max_level` INT UNSIGNED NOT NULL,
@@ -226,8 +239,25 @@ INSERT INTO `mod_lfg_dbc_dungeon` VALUES
 (260,'Random Burning Crusade Heroic',70,73,70,70,73,0,1,3,6,-1,'',1,0,3,''),
 (261,'Random Lich King Dungeon',69,80,80,69,80,0,0,3,6,-1,'',2,0,4,''),
 (262,'Random Lich King Heroic',80,83,80,80,83,0,1,3,6,-1,'',2,0,5,'');
+ON DUPLICATE KEY UPDATE
+    `name` = VALUES(`name`),
+    `min_level` = VALUES(`min_level`),
+    `max_level` = VALUES(`max_level`),
+    `target_level` = VALUES(`target_level`),
+    `target_min_level` = VALUES(`target_min_level`),
+    `target_max_level` = VALUES(`target_max_level`),
+    `map_id` = VALUES(`map_id`),
+    `difficulty` = VALUES(`difficulty`),
+    `flags` = VALUES(`flags`),
+    `type_id` = VALUES(`type_id`),
+    `faction` = VALUES(`faction`),
+    `texture_name` = VALUES(`texture_name`),
+    `expansion_level` = VALUES(`expansion_level`),
+    `display_order` = VALUES(`display_order`),
+    `group_id` = VALUES(`group_id`),
+    `description` = VALUES(`description`);
 
-CREATE TABLE `mod_lfg_dbc_expansion` (
+CREATE TABLE IF NOT EXISTS `mod_lfg_dbc_expansion` (
  `id` INT UNSIGNED NOT NULL, `lfg_dungeon_id` INT UNSIGNED NOT NULL,
  `expansion_level` INT UNSIGNED NOT NULL, `random_lfg_dungeon_id` INT UNSIGNED NOT NULL,
  `hard_level_min` INT UNSIGNED NOT NULL, `hard_level_max` INT UNSIGNED NOT NULL,
@@ -264,5 +294,13 @@ INSERT INTO `mod_lfg_dbc_expansion` VALUES
 (203,259,2,0,59,68,59,68),
 (219,274,0,258,57,60,59,60),
 (220,276,0,258,51,60,53,56);
+ON DUPLICATE KEY UPDATE
+    `lfg_dungeon_id` = VALUES(`lfg_dungeon_id`),
+    `expansion_level` = VALUES(`expansion_level`),
+    `random_lfg_dungeon_id` = VALUES(`random_lfg_dungeon_id`),
+    `hard_level_min` = VALUES(`hard_level_min`),
+    `hard_level_max` = VALUES(`hard_level_max`),
+    `target_level_min` = VALUES(`target_level_min`),
+    `target_level_max` = VALUES(`target_level_max`);
 
 -- Source counts: LFGDungeons=195, LFGDungeonGroup=10, LFGDungeonExpansion=29.
