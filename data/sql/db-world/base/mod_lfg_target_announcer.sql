@@ -1,6 +1,4 @@
-DROP TABLE IF EXISTS `mod_lfg_target_announcer`;
-
-CREATE TABLE `mod_lfg_target_announcer`
+CREATE TABLE IF NOT EXISTS `mod_lfg_target_announcer`
 (
     `lfg_dungeon_id` INT UNSIGNED NOT NULL,
     `map_id` INT UNSIGNED NOT NULL,
@@ -13,9 +11,7 @@ ENGINE = InnoDB
 DEFAULT CHARSET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `mod_lfg_target_announcer_target`;
-
-CREATE TABLE `mod_lfg_target_announcer_target`
+CREATE TABLE IF NOT EXISTS `mod_lfg_target_announcer_target`
 (
     `lfg_dungeon_id` INT UNSIGNED NOT NULL,
     `target_order` TINYINT UNSIGNED NOT NULL DEFAULT 1,

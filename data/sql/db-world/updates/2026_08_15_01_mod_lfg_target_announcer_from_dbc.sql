@@ -7,36 +7,6 @@
 -- is created but intentionally left empty for later creature/event target inserts.
 
 SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-DROP TABLE IF EXISTS `mod_lfg_target_announcer_target`;
-DROP TABLE IF EXISTS `mod_lfg_target_announcer`;
-SET FOREIGN_KEY_CHECKS = 1;
-
-CREATE TABLE `mod_lfg_target_announcer`
-(
-    `lfg_dungeon_id` INT UNSIGNED NOT NULL,
-    `map_id` INT UNSIGNED NOT NULL,
-    `message` VARCHAR(1000) NOT NULL,
-    `comment` VARCHAR(255) NULL,
-    PRIMARY KEY (`lfg_dungeon_id`),
-    INDEX `IX_mod_lfg_target_announcer_map_id` (`map_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-CREATE TABLE `mod_lfg_target_announcer_target`
-(
-    `lfg_dungeon_id` INT UNSIGNED NOT NULL,
-    `target_order` TINYINT UNSIGNED NOT NULL,
-    `creature_entry` INT UNSIGNED NULL,
-    `target_name` VARCHAR(255) NOT NULL,
-    `required` TINYINT UNSIGNED NOT NULL DEFAULT 1,
-    `comment` VARCHAR(255) NULL,
-    PRIMARY KEY (`lfg_dungeon_id`, `target_order`),
-    INDEX `IX_mod_lfg_target_creature_entry` (`creature_entry`),
-    CONSTRAINT `FK_mod_lfg_target_announcer_target_dungeon`
-        FOREIGN KEY (`lfg_dungeon_id`)
-        REFERENCES `mod_lfg_target_announcer` (`lfg_dungeon_id`)
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `mod_lfg_target_announcer`
 (`lfg_dungeon_id`, `map_id`, `message`, `comment`)
@@ -137,5 +107,8 @@ VALUES
 (286, 547, '|cff00ff00[LFG System]:|r To complete The Frost Lord Ahune, complete the required final encounter for this Dungeon Finder entry.', 'The Frost Lord Ahune - Normal - World Events - Levels 78-82 - LFG ID 286'),
 (287, 230, '|cff00ff00[LFG System]:|r To complete Coren Direbrew, complete the required final encounter for this Dungeon Finder entry.', 'Coren Direbrew - Normal - World Events - Levels 78-82 - LFG ID 287'),
 (288, 33, '|cff00ff00[LFG System]:|r To complete The Crown Chemical Co., complete the required final encounter for this Dungeon Finder entry.', 'The Crown Chemical Co. - Normal - World Events - Levels 78-82 - LFG ID 288');
-
+ON DUPLICATE KEY UPDATE
+    `map_id` = VALUES(`map_id`),
+    `message` = VALUES(`message`),
+    `comment` = VALUES(`comment`);
 -- Inserted 96 selectable LFG dungeon entries.
