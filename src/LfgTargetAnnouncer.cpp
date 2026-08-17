@@ -10,6 +10,7 @@
 #include "ScriptMgr.h"
 
 #include <string>
+#include <vector>
 
 using namespace Acore::ChatCommands;
 
@@ -67,7 +68,86 @@ namespace
 
             Field* fields = result->Fetch();
 
-            return fields[0].Get<std::string>();
+            std::string message =
+                fields[0].Get<std::string>();
+
+            std::vector<std::string> targetNames =
+                LfgTargetAnnouncer::GetTargetNames(
+                    lfgDungeonId);
+
+            if (targetNames.empty())
+            {
+                return message;
+            }
+
+            message += " Required target";
+
+            if (targetNames.size() != 1)
+            {
+                message += "s";
+            }
+
+            message += ": ";
+
+            for (std::size_t index = 0;
+                index < targetNames.size();
+                ++index)
+            {
+                if (index > 0)
+                {
+                    if (index == targetNames.size() - 1)
+                    {
+                        message += " and ";
+                    }
+                    else
+                    {
+                        message += ", ";
+                    }
+                }
+
+                message += "|cffffff00";
+                message += targetNames[index];
+                message += "|r";
+            }
+
+            message += ".";
+
+            return message;
+        }
+
+        static std::vector<std::string> GetTargetNames(
+            uint32 lfgDungeonId)
+        {
+            std::vector<std::string> targetNames;
+
+            QueryResult result = WorldDatabase.Query(
+                "SELECT `target_name` "
+                "FROM `mod_lfg_target_announcer_target` "
+                "WHERE `lfg_dungeon_id` = {} "
+                "AND `required` = 1 "
+                "ORDER BY `target_order`",
+                lfgDungeonId);
+
+            if (!result)
+            {
+                return targetNames;
+            }
+
+            do
+            {
+                Field* fields = result->Fetch();
+
+                std::string targetName =
+                    fields[0].Get<std::string>();
+
+                if (!targetName.empty())
+                {
+                    targetNames.push_back(
+                        targetName);
+                }
+            } while (result->NextRow());
+
+            return targetNames;
         }
 
         static void SendMessageToGroup(

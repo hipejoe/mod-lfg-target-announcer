@@ -3,8 +3,8 @@
 --   LFGDungeonGroup.dbc
 --   LFGDungeonExpansion.dbc
 --
--- The DBC files do not contain final-boss creature entries. The target table
--- is created but intentionally left empty for later creature/event target inserts.
+-- Populates the LFG dungeon announcement records and derives completion
+-- targets from the AzerothCore `instance_encounters` table.
 
 SET NAMES utf8mb4;
 
@@ -112,3 +112,81 @@ ON DUPLICATE KEY UPDATE
     `message` = VALUES(`message`),
     `comment` = VALUES(`comment`);
 -- Inserted 96 selectable LFG dungeon entries.
+
+INSERT INTO `mod_lfg_target_announcer_target`
+(
+    `lfg_dungeon_id`,
+    `target_order`,
+    `creature_entry`,
+    `target_name`,
+    `required`,
+    `comment`
+)
+SELECT
+    `source`.`lfg_dungeon_id`,
+    `source`.`target_order`,
+    `source`.`creature_entry`,
+    `source`.`target_name`,
+    1,
+    `source`.`comment`
+FROM
+(
+    SELECT
+        `ie`.`lastEncounterDungeon` AS `lfg_dungeon_id`,
+
+        ROW_NUMBER() OVER
+        (
+            PARTITION BY `ie`.`lastEncounterDungeon`
+            ORDER BY
+                `ie`.`entry`,
+                `ie`.`creditEntry`
+        ) AS `target_order`,
+
+        CASE
+            WHEN `ie`.`creditType` = 0
+                THEN `ie`.`creditEntry`
+            ELSE NULL
+        END AS `creature_entry`,
+
+        CASE
+            WHEN `ie`.`creditType` = 0
+                THEN COALESCE(
+                    NULLIF(`ct`.`name`, ''),
+                    CONCAT(
+                        'Unknown creature ',
+                        `ie`.`creditEntry`
+                    )
+                )
+
+            ELSE CONCAT(
+                'Encounter objective ',
+                `ie`.`creditEntry`
+            )
+        END AS `target_name`,
+
+        CONCAT(
+            'instance_encounters entry ',
+            `ie`.`entry`,
+            ', creditType ',
+            `ie`.`creditType`
+        ) AS `comment`
+
+    FROM `instance_encounters` AS `ie`
+
+    INNER JOIN `mod_lfg_target_announcer` AS `a`
+        ON `a`.`lfg_dungeon_id` =
+           `ie`.`lastEncounterDungeon`
+
+    LEFT JOIN `creature_template` AS `ct`
+        ON `ie`.`creditType` = 0
+       AND `ct`.`entry` =
+           `ie`.`creditEntry`
+
+    WHERE `ie`.`lastEncounterDungeon` <> 0
+) AS `source`
+
+ON DUPLICATE KEY UPDATE
+    `creature_entry` = VALUES(`creature_entry`),
+    `target_name` = VALUES(`target_name`),
+    `required` = VALUES(`required`),
+    `comment` = VALUES(`comment`);
